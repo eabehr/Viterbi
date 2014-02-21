@@ -1,0 +1,46 @@
+For the first 10 hits having length at least 50 nucleotides, 
+look at the genome annotation to see what you can learn 
+about these sequences. The .rnt file will be a good start 
+for this. It annotates the most common noncoding RNAs, 
+but is neither complete nor up to date. Other data from the 
+NCBI pages may be helpful. For example, the ftp directory 
+identified above contains many other files annotating this 
+genome, notably the ".gbk" ("GenBank") file; have a look at it. 
+There are also several internet sites devoted to RNA. (Rfam 
+is generally recommended, although I don't happen to know 
+whether they have much on M. jannaschii.) By the way, as 
+with the dice example, I would expect a technique like this 
+at best to be a little sloppy in marking the exact ends of 
+known RNA genes, so be happy if your hits merely significantly 
+overlap real (noncoding RNA) genes.
+
+Start: 97326	End: 97541	Length: 216
+	From RNT File: 97429..97537: tRNA-Met-1
+	Yeast Initiator
+
+Start: 97627	End: 97823	Length: 197
+	From RNT File: 97629..97713: tRNA-Leu-1
+
+Start: 111764	End: 111856	Length: 93
+	From RNT File: 111768..111852: tRNA-SeC-1
+
+Start: 118079	End: 118179	Length: 101
+	From RNT File: ???
+
+Start: 138345	End: 138419	Length: 75
+	From RNT File: 138347..138419: tRNA-Val-1
+
+Start: 154610	End: 157697	Length: 3088
+	From RNT FIle: 154759..157648: MJrrnA23S
+
+Start: 157782	End: 159591	Length: 1810
+	From RNT File: 157847..157919: tRNA-Ala-1
+
+Start: 186974	End: 187067	Length: 94
+	From RNT File: 186978..187063: tRNA-Ser-1
+
+Start: 190831	End: 190907	Length: 77
+	From RNT File: 190832..190905: tRNA-Pro-1
+	
+Start: 215200	End: 215296	Length: 97
+	From RNT File: 215210..215294: tRNA-Leu-2
