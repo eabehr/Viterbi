@@ -3,34 +3,24 @@ import java.util.*;
 
 public class HMMViterbi {
 	
-	public static final char replacement = 'T'; // if input is not one of these it is converted to a 'T'
-	public static Set<String> stopCodons;
+  public static final char replacement = 'T'; // if input is not one of these it is converted to a 'T'
+  public static Set<String> stopCodons;
 
   public static final String DICE_SEQ = "315116246446644245311321631164152133625144543631656626566666651166453132651245636664631636663162326455236266666625151631222555441666566563564324364131513465146353411126414626253356366163666466232534413661661163252562462255265252266435353336233121625364414432335163243633665562466662632666612355245242";
 
-	public static final String actg = "ACGT"; // gene index
+  public static final String actg = "ACGT"; // gene index
   public static final String die = "123456";
   
-  public static double[][] genTransitions = new double[][] {{.9999, .0001},
-                                                            {.9999, .0001},
-                                                            {.01, .99}};
-
-  public static double[][] dieTransitions = new double[][] {{.52, .48},
-                                                            {.60, .40}, 
-                                                            {.17, .83}};
-
-  public static double[][] bigDieTransitions = new double[][] {{.1, .9},
-                                                            {.9, .1}, 
-                                                            {.05, .95}};
-
-
-  public static double[] genEState1 = new double[] {.25, .25, .25, .25};
-  public static double[] genEState2 = new double[] {.20, .30, .30, .20};
-
+  public static double[][] genTransitions = new double[][] {{.9999, .0001}, {.9999, .0001}, {.01, .99}};
+  public static double[][] dieTransitions = new double[][] {{.52, .48}, {.60, .40}, {.17, .83}};
+  public static double[][] bigDieTransitions = new double[][] {{.1, .9}, {.9, .1}, {.05, .95}};
   
   public static double[] dieELoaded = new double[] {.10, .10, .10, .10, .10, .5};
   public static final double fair = 1.0/6.0;
   public static double[] dieEFair = new double[] {fair, fair, fair, fair, fair, fair};
+  
+  public static double[] genEState1 = new double[] {.25, .25, .25, .25};
+  public static double[] genEState2 = new double[] {.20, .30, .30, .20};
 
   public static char[] viPath;
   public static char[] genome;
@@ -72,25 +62,43 @@ public class HMMViterbi {
 	  genEState1 = new double[]{0.0, 0.0, 0.0, 0.0};
 	  genEState2 = new double[]{0.0, 0.0, 0.0, 0.0};
 	  
+	  //public static double[][] genTransitions = new double[][] {{.9999, .0001}, {.9999, .0001}, {.01, .99}};
+	  genTransitions = new double[][]{{.9999, .0001}, {0.0, 0.0}, {0.0, 0.0}};
+	  //double 
+	  
 	  // state2 = 1, state1 = 0, looking for continuous sequences of 1s	  
 	  System.out.println("Lengths and Locations of All Hits");
-	  boolean inSeq; // whether currently in a sequence of 1s
+	  boolean inSeq = (viPath[0] == '1'); // whether currently in a sequence of 1s	  
 	  int numHits = 0;
 	  int start, end, length;
 	  for(int i = 0; i < viPath.length; i++) {
-		  inSeq = false;
 		  start = i;
 		  while(i < viPath.length && viPath[i] == '0') {
+			  if(inSeq) {
+				  //increment state 2 ->state1
+			  } else {
+				  // increment state1->state1
+			  }
+			  
+			  inSeq = false;
 			  i++;
+			  
 		  }
+		  
 		  end = i-1;
 		  generateNewProbabilities(start, end, false);
 		  
 		  start = i;
 		  while(i < viPath.length && viPath[i] == '1') {
+			  if(!inSeq) {
+				  // increment state1->state2
+			  } else {
+				  // increment state2->state2
+			  }
 			  inSeq = true;
 			  i++;
 		  }
+		  
 		  
 		  // inclusive inclusive or inclusive exclusive???
 		  end = i-1;
@@ -114,7 +122,8 @@ public class HMMViterbi {
 		  genEState2[i] = genEState2[i]/state2total;
 	  }
 	  
-	  
+	  System.out.println("State1 Probabilities: " + Arrays.toString(genEState1));
+	  System.out.println("State2 Probabilities: " + Arrays.toString(genEState2));
   }
   
   //trans = transition = "a" 
