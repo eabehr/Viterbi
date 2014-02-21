@@ -65,6 +65,13 @@ public class HMMViterbi {
 		}
 	}
 
+	
+	// This method processes a given Viterbi path.
+	// It identifies the hits (contiguous sequences of State 2) and if the boolean parameter is true, prints them
+	// It also does the E-step of the EM algorithm, aka:
+	// For the entire path, it recalculates the emission and transition probabilities,
+	// and replaces them in the global variables 
+	// Note: It doesn't change the begin state probabilities
 	public static void processPath(boolean printHits) {
 		// reset probabilities
 		genEState1 = new double[]{0.0, 0.0, 0.0, 0.0};
@@ -151,6 +158,8 @@ public class HMMViterbi {
 
 	//trans = transition = "a" 
 	//e = emitL = emissions
+	// Calculates the overall Viterbi path for the sequence
+	// Stores this path in global variable viPath
 	public static void hmmViterbi(char[] input, double[][] trans, double[] emitL, double[] emitF){
 		// this output grid looks like 
 		// output[0][i] LL  --> probability of role in loaded state given previous state was loaded die
@@ -212,16 +221,6 @@ public class HMMViterbi {
 		}
 	} 
 
-	// Prints a 2-d array pretty 
-//	public static void print2Array(double[][] array, int rows, int columns){
-//		for(int i = 0; i < rows; i++) {
-//			for(int j = 0; j < columns; j++) {
-//				System.out.print((array[i][j]) + "\t");
-//			}
-//			System.out.println();
-//		}
-//	}
-
 	// Replaces non valid nucleotides with the replacement nucleotide 
 	private static void cleanGene() {
 		String gi;
@@ -234,7 +233,7 @@ public class HMMViterbi {
 		}
 	}
 
-	// Reads the gene file into a char array and returns it 
+	// Reads the gene file into a char array and stores it in global variable  
 	public static void readGene() throws FileNotFoundException{
 		File f = new File("FNA");
 		Scanner s = new Scanner(f);
@@ -250,4 +249,29 @@ public class HMMViterbi {
 		}
 		genome = sequence.toCharArray();
 	}
+	
+	/* 
+     * Given two probabilities x and y, represented by their logs lx, ly,
+     * return the log of their sum log(x+y) = log(exp(lx) + exp(ly)).
+     *
+     * Assume log(0) is represented by NaN.
+     *
+     * The "lx > ly" trick is some protection from underflow:
+     *   log(a+b) = log(a(1+b/a)) = log(a)+log(1+b/a), 
+     * which will be most accurate when b/a < 1.
+     */
+    public static double log_of_sum_of_logs(double lx, double ly){
+      if(isnan(lx)) return ly;
+      if(isnan(ly)) return lx;
+      if(lx > ly) {
+        return lx + Math.log(1+Math.exp(ly-lx));
+      } else {
+        return ly + Math.log(1+Math.exp(lx-ly));
+      }
+    }
+    
+    public static boolean isnan(Double x){
+    	return x.isNaN(); 
+    }
+    
 }
