@@ -23,54 +23,98 @@ public class HMMViterbi {
                                                             {.9, .1}, 
                                                             {.05, .95}};
 
+
   public static double[] genEState1 = new double[] {.25, .25, .25, .25};
   public static double[] genEState2 = new double[] {.20, .30, .30, .20};
 
+  
   public static double[] dieELoaded = new double[] {.10, .10, .10, .10, .10, .5};
   public static final double fair = 1.0/6.0;
   public static double[] dieEFair = new double[] {fair, fair, fair, fair, fair, fair};
 
   public static char[] viPath;
+  public static char[] genome;
   
   public static void main(String[] args) throws FileNotFoundException {
 
-    char[] genome = readGene();
-    genome = cleanGene(genome);
+    genome = readGene();
+    cleanGene(genome);
+// remove genome as parameter!
     hmmViterbi(genome, genTransitions, genEState1, genEState2);
     
-//    for(int i = 0; i < viPath.length; i++) {
-//    	System.out.print(viPath[i]);
-//    }
-    
     processPath();
+    
+    
     
    // char[] diceSeq = prepDiceSeq();
    // char[] shortDie = "666666".toCharArray();
    // hmmViterbi(diceSeq, bigDieTransitions, dieELoaded, dieEFair);
   }
   
+  // start - start of section, end - end of section (inclusive), state2 - if true, state1, if false, state1
+  public static void generateNewProbabilities(int start, int end, boolean state2) {
+	  
+	  for(int i = start; i <= end; i++) {
+		 
+		  if(state2) {
+			  genEState2[actg.indexOf(genome[i])]++;
+		  } else {
+			  genEState1[actg.indexOf(genome[i])]++;
+		  }
+		  
+	  }
+	  
+	  
+  }
+  
   public static void processPath() {
+	  // reset probabilities
+	  genEState1 = new double[]{0.0, 0.0, 0.0, 0.0};
+	  genEState2 = new double[]{0.0, 0.0, 0.0, 0.0};
+	  
 	  // state2 = 1, state1 = 0, looking for continuous sequences of 1s	  
 	  System.out.println("Lengths and Locations of All Hits");
 	  boolean inSeq; // whether currently in a sequence of 1s
+	  int numHits = 0;
 	  int start, end, length;
 	  for(int i = 0; i < viPath.length; i++) {
 		  inSeq = false;
+		  start = i;
 		  while(i < viPath.length && viPath[i] == '0') {
 			  i++;
 		  }
-		  start = i+1;
+		  end = i-1;
+		  generateNewProbabilities(start, end, false);
+		  
+		  start = i;
 		  while(i < viPath.length && viPath[i] == '1') {
 			  inSeq = true;
 			  i++;
 		  }
+		  
 		  // inclusive inclusive or inclusive exclusive???
-		  end = i;
+		  end = i-1;
 		  length = end - start + 1;
 		  if(inSeq) {
-			  System.out.println("Start: " + start + "\t" + "End: " + end + "\t" + "Length: " + length);
+			  numHits++;
+			  System.out.println("Start: " + (start+1) + "\t" + "End: " + (end+1) + "\t" + "Length: " + length);
+			  generateNewProbabilities(start, end, true);
 		  }
-	  }  
+	  }
+	  System.out.println("Number of hits: " + numHits);
+	  
+	  double state1total = 0;
+	  double state2total = 0;
+	  for(int i = 0; i < 4; i++) {
+		  state1total += genEState1[i];
+		  state2total += genEState2[i];
+	  }
+	  for(int i = 0; i < 4; i++) {
+		  genEState1[i] = genEState1[i]/state1total;
+		  genEState2[i] = genEState2[i]/state2total;
+	  }
+	  
+	  
   }
   
   //trans = transition = "a" 
@@ -112,8 +156,7 @@ public class HMMViterbi {
     
     double viterbiPathProb = Math.max(output[5][input.length-1], output[2][input.length-1]);
     
-    System.out.println("Log probability of the overall Viterbi path");
-    System.out.println(viterbiPathProb);
+    System.out.println("Log probability of the overall Viterbi path: " + viterbiPathProb + "\n");
   
     //print2Array(output, 6, input.length);
 
