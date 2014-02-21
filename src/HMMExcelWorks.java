@@ -6,40 +6,39 @@ public class HMMExcelWorks {
 	public static final char replacement = 'T'; // if input is not one of these it is converted to a 'T'
 	public static Set<String> stopCodons;
 
-  public static final String DICE_SEQ = "315116246446644245311321631164152133625144543631656626566666651166453132651245636664631636663162326455236266666625151631222555441666566563564324364131513465146353411126414626253356366163666466232534413661661163252562462255265252266435353336233121625364414432335163243633665562466662632666612355245242";
+	public static final String DICE_SEQ = "315116246446644245311321631164152133625144543631656626566666651166453132651245636664631636663162326455236266666625151631222555441666566563564324364131513465146353411126414626253356366163666466232534413661661163252562462255265252266435353336233121625364414432335163243633665562466662632666612355245242";
 
 	public static final String actg = "ACTG"; // gene index
-  public static final String die = "123456";
+	public static final String die = "123456";
   
-  public static double[][] genTransitions = new double[][] {{.9999, .0001},
+	public static double[][] genTransitions = new double[][] {{.9999, .0001},
                                                             {.9999, .0001},
                                                             {.01, .99}};
 
-  public static double[][] dieTransitions = new double[][] {{.52, .48},
+	public static double[][] dieTransitions = new double[][] {{.52, .48},
                                                             {.60, .40}, 
                                                             {.17, .83}};
 
-  public static double[][] bigDieTransitions = new double[][] {{.1, .9},
+	public static double[][] bigDieTransitions = new double[][] {{.1, .9},
                                                             {.9, .1}, 
                                                             {.05, .95}};
 
-  public static double[] genEState1 = new double[] {.25, .25, .25, .25};
-  public static double[] genEState2 = new double[] {.20, .30, .30, .20};
+	public static double[] genEState1 = new double[] {.25, .25, .25, .25};
+	public static double[] genEState2 = new double[] {.20, .30, .30, .20};
 
-  public static double[] dieELoaded = new double[] {.10, .10, .10, .10, .10, .5};
-  public static final double fair = 1.0/6.0;
-  public static double[] dieEFair = new double[] {fair, fair, fair, fair, fair, fair};
+	public static double[] dieELoaded = new double[] {.10, .10, .10, .10, .10, .5};
+	public static final double fair = 1.0/6.0;
+	public static double[] dieEFair = new double[] {fair, fair, fair, fair, fair, fair};
 
 	public static void main(String[] args) throws FileNotFoundException {
 /*
     char[] genome = readGene();
     genome = cleanGene(genome);
 */
-    
-    char[] diceSeq = prepDiceSeq();
-    char[] shortDie = "316664".toCharArray();
-    hmmViterbi(shortDie, dieTransitions, dieELoaded, dieEFair);
-  }
+		char[] diceSeq = prepDiceSeq();
+    	char[] shortDie = "316664".toCharArray();
+    	hmmViterbi(shortDie, dieTransitions, dieELoaded, dieEFair);
+	}
   
   //trans = transition = "a" 
   //e = emitL = emissions
@@ -78,7 +77,8 @@ public class HMMExcelWorks {
         output[5][i] = output[4][i];
       }
     }
-  print2Array(output, 6, input.length);
+
+    print2Array(output, 6, input.length);
 
 
     // traceback

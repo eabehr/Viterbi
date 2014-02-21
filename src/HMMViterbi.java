@@ -30,15 +30,41 @@ public class HMMViterbi {
   public static final double fair = 1.0/6.0;
   public static double[] dieEFair = new double[] {fair, fair, fair, fair, fair, fair};
 
-	public static void main(String[] args) throws FileNotFoundException {
-/*
+  public static char[] viPath;
+  
+  public static void main(String[] args) throws FileNotFoundException {
+
     char[] genome = readGene();
     genome = cleanGene(genome);
-*/
+    hmmViterbi(genome, genTransitions, genEState1, genEState2);
     
-    char[] diceSeq = prepDiceSeq();
-    char[] shortDie = "666666".toCharArray();
-    hmmViterbi(diceSeq, bigDieTransitions, dieELoaded, dieEFair);
+    for(int i = 0; i < viPath.length; i++) {
+    	System.out.print(viPath[i]);
+    }
+    
+    //processPath();
+    
+   // char[] diceSeq = prepDiceSeq();
+   // char[] shortDie = "666666".toCharArray();
+   // hmmViterbi(diceSeq, bigDieTransitions, dieELoaded, dieEFair);
+  }
+  
+  public static void processPath() {
+	  // state2 = 1, state1 = 0, looking for continuous sequences of 1s	  
+	 
+	  for(int i = 0; i < viPath.length; i++) {
+		  int start, end, length;
+		  while(i < viPath.length && viPath[i] == '0') {
+			  i++;
+		  }
+		  start = i+1;
+		  while(i < viPath.length && viPath[i] == '1') {
+			  i++;
+		  }
+		  end = i;
+		  length = end - start + 1;
+		  System.out.println("Start: " + start + "\t" + "End: " + end + "\t" + "Length: " + length);
+	  }  
   }
   
   //trans = transition = "a" 
@@ -53,56 +79,58 @@ public class HMMViterbi {
     // output[5][i] Max of Fair state possibilities  
     double[][] output = new double[6][input.length];
     for(int r=0; r<3; r++) {
-      output[r][0] = Math.log(trans[0][0]) + Math.log(emitL[die.indexOf(input[0])]); //B --> L transition
+      output[r][0] = Math.log(trans[0][0]) + Math.log(emitL[actg.indexOf(input[0])]); //B --> L transition
     } 
     for(int r=3; r<6; r++) {
-      output[r][0] = Math.log(trans[0][1]) + Math.log(emitF[die.indexOf(input[0])]);// B--> F transition
+      output[r][0] = Math.log(trans[0][1]) + Math.log(emitF[actg.indexOf(input[0])]); //B --> F transition
     } 
 
     int[][] path = new int[2][input.length];
     for(int i=1; i<input.length; i++) {
-      output[0][i] = (output[2][i-1]) + Math.log(trans[1][0]) + Math.log(emitL[die.indexOf(input[i])]); //LL transition --> Loaded die to loaded die
-      output[1][i] = (output[5][i-1]) + Math.log(trans[2][0]) + Math.log(emitL[die.indexOf(input[i])]); // FL transition
+      output[0][i] = (output[2][i-1]) + Math.log(trans[1][0]) + Math.log(emitL[actg.indexOf(input[i])]); //LL transition --> Loaded die to loaded die
+      output[1][i] = (output[5][i-1]) + Math.log(trans[2][0]) + Math.log(emitL[actg.indexOf(input[i])]); // FL transition
       output[2][i] = output[0][i];
       if(output[1][i] > output[0][i]) {
         path[0][i] = 1;
         output[2][i] = output[1][i];
       }
-      
-    
-      output[3][i] = (output[2][i-1]) + Math.log(trans[1][1]) + Math.log(emitF[die.indexOf(input[i])]); //LF transition
-      output[4][i] = (output[5][i-1]) + Math.log(trans[2][1]) + Math.log( emitF[die.indexOf(input[i])]); // FF transition
+
+      output[3][i] = (output[2][i-1]) + Math.log(trans[1][1]) + Math.log(emitF[actg.indexOf(input[i])]); //LF transition
+      output[4][i] = (output[5][i-1]) + Math.log(trans[2][1]) + Math.log(emitF[actg.indexOf(input[i])]); // FF transition
       output[5][i] = output[3][i];
       if(output[4][i] > output[3][i]) {
         path[1][i] = 1;
         output[5][i] = output[4][i];
       }
     }
-  print2Array(output, 6, input.length);
+    
+    double viterbiPathProb = Math.max(output[5][input.length-1], output[2][input.length-1]);
+    
+    System.out.println(viterbiPathProb);
+  
+    //print2Array(output, 6, input.length);
 
+    viPath = new char[input.length];
 
     // traceback
     // To Get the viterbi path 
     int i = input.length -1;
-    String vPath;
     int c;
     if(output[5][i] > output[2][i]){
-      vPath = "1";
+      viPath[i] = '1';
       c = path[1][i]; 
     } else {
-      vPath = "0";
+      viPath[i] = '0';
       c = path[0][i];
     } 
     for( i=input.length-2; i>=0; i--) {
      if(c == 0) {
-        vPath = "0" + vPath;
+        viPath[i] = '0';
       } else {
-        vPath = "1" + vPath;
+        viPath[i] = '1';
       }
       c = path[c][i];
     }
-    System.out.println(vPath);
-
   } 
 
   // Preps the sequence for testing the casino model 
@@ -137,7 +165,7 @@ public class HMMViterbi {
 
   // Reads the gene file into a char array and returns it 
 	public static char[] readGene() throws FileNotFoundException{
-	    File f = new File("NC_000909.fna");
+	    File f = new File("FNA");
 	    Scanner s = new Scanner(f);
 	    char[] genome = new char[0];
 	    String longLine = "";
