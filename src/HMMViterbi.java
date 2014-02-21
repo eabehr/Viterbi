@@ -47,22 +47,22 @@ public class HMMViterbi {
     // this output grid looks like 
     // output[0][i] LL  --> probability of role in loaded state given previous state was loaded die
     // output[1][i] FL  --> probability of role in loaded state given previous state was fair die
-    // output[2][i] Max of Loaded state posibilities 
+    // output[2][i] Max of Loaded state possibilities 
     // output[3][i] LF  --> probability of role in fair state given previous state was loaded die 
     // output[4][i] FF  --> probability of role in fair state given previous state was fair die
     // output[5][i] Max of Fair state possibilities  
     double[][] output = new double[6][input.length];
     for(int r=0; r<3; r++) {
-      output[r][0] = (trans[0][0]) * (emitL[die.indexOf(input[0])]); //B --> L transition
+      output[r][0] = Math.log(trans[0][0]) + Math.log(emitL[die.indexOf(input[0])]); //B --> L transition
     } 
     for(int r=3; r<6; r++) {
-      output[r][0] = (trans[0][1]) * (emitF[die.indexOf(input[0])]);// B--> F transition
+      output[r][0] = Math.log(trans[0][1]) + Math.log(emitF[die.indexOf(input[0])]);// B--> F transition
     } 
 
     int[][] path = new int[2][input.length];
-    for(int i=1; i<output.length; i++) {
-      output[0][i] = (output[2][i-1]) * (trans[1][0]) * (emitL[die.indexOf(input[i])]); //LL transition --> Loaded die to loaded die
-      output[1][i] = (output[5][i-1]) * (trans[2][0]) * (emitL[die.indexOf(input[i])]); // FL transition
+    for(int i=1; i<input.length; i++) {
+      output[0][i] = (output[2][i-1]) + Math.log(trans[1][0]) + Math.log(emitL[die.indexOf(input[i])]); //LL transition --> Loaded die to loaded die
+      output[1][i] = (output[5][i-1]) + Math.log(trans[2][0]) + Math.log(emitL[die.indexOf(input[i])]); // FL transition
       output[2][i] = output[0][i];
       if(output[1][i] > output[0][i]) {
         path[0][i] = 1;
@@ -70,15 +70,14 @@ public class HMMViterbi {
       }
       
     
-      output[3][i] = (output[2][i-1]) * (trans[1][1]) * (emitF[die.indexOf(input[i])]); //LF transition
-      output[4][i] = (output[5][i-1]) * (trans[2][1]) * (emitF[die.indexOf(input[i])]); // FF transition
+      output[3][i] = (output[2][i-1]) + Math.log(trans[1][1]) + Math.log(emitF[die.indexOf(input[i])]); //LF transition
+      output[4][i] = (output[5][i-1]) + Math.log(trans[2][1]) + Math.log( emitF[die.indexOf(input[i])]); // FF transition
       output[5][i] = output[3][i];
       if(output[4][i] > output[3][i]) {
         path[1][i] = 1;
         output[5][i] = output[4][i];
       }
     }
-    
   print2Array(output, 6, input.length);
 
 
