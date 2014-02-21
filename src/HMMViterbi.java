@@ -137,7 +137,6 @@ public class HMMViterbi {
 		System.out.println("Transitions\t\tState1\t\tState2");
 		System.out.println("State1\t\t" + genTransitions[1][0] + "\t" + genTransitions[1][1]);
 		System.out.println("State2\t\t" + genTransitions[2][0] + "\t" + genTransitions[2][1]);
-		//print2Array(genTransitions, 3, 2);
 		System.out.println();
 
 		double state1total = 0;
@@ -223,12 +222,10 @@ public class HMMViterbi {
 
 	// Replaces non valid nucleotides with the replacement nucleotide 
 	private static void cleanGene() {
-		String gi;
-		for(int i = 0; i < genome.length; i++) {
-			// contains method takes a string, not a char
-			gi = "" + genome[i];
-			if(!actg.contains(gi)) {
-				genome[i] = replacement;
+		for (int i = 0; i < genome.length; i++) {
+			if (genome[i] != 'A' && genome[i] != 'C' && genome[i] != 'G'
+					&& genome[i] != 'T') {
+				genome[i] = 'T';
 			}
 		}
 	}
