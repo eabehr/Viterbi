@@ -30,12 +30,27 @@ public class HMMViterbi {
     genome = readGene();
     cleanGene(genome);
 // remove genome as parameter!
-    hmmViterbi(genome, genTransitions, genEState1, genEState2);
     
-    processPath();
+    double hi = System.nanoTime();
+	System.out.println("hi: " + System.nanoTime());
+double bye = 0.0;
+
+	boolean printHits;
+	for(int i = 1; i <= 10; i++) {
+		printHits = (i == 1 || i == 10);
+    	System.out.println("Iteration " + i);
+    	hmmViterbi(genome, genTransitions, genEState1, genEState2);
+    	processPath(printHits);
+    	System.out.println();
+    	
+    	if(i == 9) {
+    		bye = System.nanoTime();  
+    		System.out.println("bye: " + System.nanoTime());
+    	}
+    }
     
-    
-    
+    System.out.println("Time: " + (bye - hi));
+
    // char[] diceSeq = prepDiceSeq();
    // char[] shortDie = "666666".toCharArray();
    // hmmViterbi(diceSeq, bigDieTransitions, dieELoaded, dieEFair);
@@ -45,19 +60,16 @@ public class HMMViterbi {
   public static void generateNewProbabilities(int start, int end, boolean state2) {
 	  
 	  for(int i = start; i <= end; i++) {
-		 
 		  if(state2) {
 			  genEState2[actg.indexOf(genome[i])]++;
 		  } else {
 			  genEState1[actg.indexOf(genome[i])]++;
 		  }
-		  
 	  }
-	  
-	  
   }
   
-  public static void processPath() {
+  public static void processPath(boolean printHits) {
+	  	  
 	  // reset probabilities
 	  genEState1 = new double[]{0.0, 0.0, 0.0, 0.0};
 	  genEState2 = new double[]{0.0, 0.0, 0.0, 0.0};
@@ -104,11 +116,13 @@ public class HMMViterbi {
 		  length = end - start + 1;
 		  if(inSeq) {
 			  numHits++;
-			  System.out.println("Start: " + (start+1) + "\t" + "End: " + (end+1) + "\t" + "Length: " + length);
+			  if(printHits) {
+				  System.out.println("Start: " + (start+1) + "\t" + "End: " + (end+1) + "\t" + "Length: " + length);
+			  }
 			  generateNewProbabilities(start, end, true);
 		  }
 	  }
-	  System.out.println("Number of hits: " + numHits);
+	  System.out.println("Number of hits: " + numHits + "\n");
 	  
 	  		// maybe same as state1 total, state 2 total???
 	  double state1totaltrans = genTransitions[1][0] + genTransitions[1][1];  
@@ -119,7 +133,9 @@ public class HMMViterbi {
 	  genTransitions[2][0] = genTransitions[2][0] / state2totaltrans;
 	  genTransitions[2][1] = genTransitions[2][1] / state2totaltrans;
 	  
+	  System.out.println("Transition Probabilities");
 	  print2Array(genTransitions, 3, 2);
+	  System.out.println();
 	  
 	  double state1total = 0;
 	  double state2total = 0;
