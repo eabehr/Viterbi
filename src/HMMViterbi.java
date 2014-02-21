@@ -76,13 +76,13 @@ public class HMMViterbi {
 		  while(i < viPath.length && viPath[i] == '0') {
 			  if(inSeq) {
 				  //increment state 2 ->state1
+				  genTransitions[2][0]++;
 			  } else {
 				  // increment state1->state1
+				  genTransitions[1][0]++;
 			  }
-			  
 			  inSeq = false;
 			  i++;
-			  
 		  }
 		  
 		  end = i-1;
@@ -92,15 +92,14 @@ public class HMMViterbi {
 		  while(i < viPath.length && viPath[i] == '1') {
 			  if(!inSeq) {
 				  // increment state1->state2
+				  genTransitions[1][1]++;
 			  } else {
 				  // increment state2->state2
+				  genTransitions[2][1]++;
 			  }
 			  inSeq = true;
 			  i++;
 		  }
-		  
-		  
-		  // inclusive inclusive or inclusive exclusive???
 		  end = i-1;
 		  length = end - start + 1;
 		  if(inSeq) {
@@ -110,6 +109,17 @@ public class HMMViterbi {
 		  }
 	  }
 	  System.out.println("Number of hits: " + numHits);
+	  
+	  		// maybe same as state1 total, state 2 total???
+	  double state1totaltrans = genTransitions[1][0] + genTransitions[1][1];  
+	  double state2totaltrans = genTransitions[2][0] + genTransitions[2][1];
+	  
+	  genTransitions[1][0] = genTransitions[1][0] / state1totaltrans;
+	  genTransitions[1][1] = genTransitions[1][1] / state1totaltrans;
+	  genTransitions[2][0] = genTransitions[2][0] / state2totaltrans;
+	  genTransitions[2][1] = genTransitions[2][1] / state2totaltrans;
+	  
+	  print2Array(genTransitions, 3, 2);
 	  
 	  double state1total = 0;
 	  double state2total = 0;
