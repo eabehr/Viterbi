@@ -5,7 +5,8 @@ public class HMMViterbi {
 
 	public static final String actg = "ACGT"; // gene index
 	public static final String die = "123456";
-
+	
+	public static double[][] genTransitions = new double[][] {{.9999, .0001}, {.9999, .0001}, {.01, .99}};
 	public static double[] genEState1 = new double[] {.25, .25, .25, .25};
 	public static double[] genEState2 = new double[] {.20, .30, .30, .20};
 
@@ -16,7 +17,6 @@ public class HMMViterbi {
 
 	// variables for Viterbi on loaded/fair dice rolls (requires minor changes to code to run on this data)
 	public static final String DICE_SEQ = "315116246446644245311321631164152133625144543631656626566666651166453132651245636664631636663162326455236266666625151631222555441666566563564324364131513465146353411126414626253356366163666466232534413661661163252562462255265252266435353336233121625364414432335163243633665562466662632666612355245242";
-	public static double[][] genTransitions = new double[][] {{.9999, .0001}, {.9999, .0001}, {.01, .99}};
 	public static double[][] dieTransitions = new double[][] {{.52, .48}, {.60, .40}, {.17, .83}};
 	public static double[][] bigDieTransitions = new double[][] {{.1, .9}, {.9, .1}, {.05, .95}};
 	public static double[] dieELoaded = new double[] {.10, .10, .10, .10, .10, .5};
@@ -223,7 +223,7 @@ public class HMMViterbi {
 //	}
 
 	// Replaces non valid nucleotides with the replacement nucleotide 
-	private static char[] cleanGene() {
+	private static void cleanGene() {
 		String gi;
 		for(int i = 0; i < genome.length; i++) {
 			// contains method takes a string, not a char
@@ -232,7 +232,6 @@ public class HMMViterbi {
 				genome[i] = replacement;
 			}
 		}
-		return genome;
 	}
 
 	// Reads the gene file into a char array and returns it 
