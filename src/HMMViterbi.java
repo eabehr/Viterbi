@@ -8,7 +8,7 @@ public class HMMViterbi {
 
   public static final String DICE_SEQ = "315116246446644245311321631164152133625144543631656626566666651166453132651245636664631636663162326455236266666625151631222555441666566563564324364131513465146353411126414626253356366163666466232534413661661163252562462255265252266435353336233121625364414432335163243633665562466662632666612355245242";
 
-	public static final String actg = "ACTG"; // gene index
+	public static final String actg = "ACGT"; // gene index
   public static final String die = "123456";
   
   public static double[][] genTransitions = new double[][] {{.9999, .0001},
@@ -38,11 +38,11 @@ public class HMMViterbi {
     genome = cleanGene(genome);
     hmmViterbi(genome, genTransitions, genEState1, genEState2);
     
-    for(int i = 0; i < viPath.length; i++) {
-    	System.out.print(viPath[i]);
-    }
+//    for(int i = 0; i < viPath.length; i++) {
+//    	System.out.print(viPath[i]);
+//    }
     
-    //processPath();
+    processPath();
     
    // char[] diceSeq = prepDiceSeq();
    // char[] shortDie = "666666".toCharArray();
@@ -51,19 +51,25 @@ public class HMMViterbi {
   
   public static void processPath() {
 	  // state2 = 1, state1 = 0, looking for continuous sequences of 1s	  
-	 
+	  System.out.println("Lengths and Locations of All Hits");
+	  boolean inSeq; // whether currently in a sequence of 1s
+	  int start, end, length;
 	  for(int i = 0; i < viPath.length; i++) {
-		  int start, end, length;
+		  inSeq = false;
 		  while(i < viPath.length && viPath[i] == '0') {
 			  i++;
 		  }
 		  start = i+1;
 		  while(i < viPath.length && viPath[i] == '1') {
+			  inSeq = true;
 			  i++;
 		  }
+		  // inclusive inclusive or inclusive exclusive???
 		  end = i;
 		  length = end - start + 1;
-		  System.out.println("Start: " + start + "\t" + "End: " + end + "\t" + "Length: " + length);
+		  if(inSeq) {
+			  System.out.println("Start: " + start + "\t" + "End: " + end + "\t" + "Length: " + length);
+		  }
 	  }  
   }
   
@@ -106,6 +112,7 @@ public class HMMViterbi {
     
     double viterbiPathProb = Math.max(output[5][input.length-1], output[2][input.length-1]);
     
+    System.out.println("Log probability of the overall Viterbi path");
     System.out.println(viterbiPathProb);
   
     //print2Array(output, 6, input.length);
