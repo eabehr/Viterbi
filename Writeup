@@ -1,22 +1,238 @@
-For the first 10 hits having length at least 50 nucleotides, 
-look at the genome annotation to see what you can learn 
-about these sequences. The .rnt file will be a good start 
-for this. It annotates the most common noncoding RNAs, 
-but is neither complete nor up to date. Other data from the 
-NCBI pages may be helpful. For example, the ftp directory 
-identified above contains many other files annotating this 
-genome, notably the ".gbk" ("GenBank") file; have a look at it. 
-There are also several internet sites devoted to RNA. (Rfam 
-is generally recommended, although I don't happen to know 
-whether they have much on M. jannaschii.) By the way, as 
-with the dice example, I would expect a technique like this 
-at best to be a little sloppy in marking the exact ends of 
-known RNA genes, so be happy if your hits merely significantly 
-overlap real (noncoding RNA) genes.
+Emily Behrendt and Katie McCorkell
+eabehr, 1128821 // kmccork, 0822555
+CSE 427 Homework 3
+Thursday, February 20, 2014
+
+
+(Emily and Katie completed this assignment together in pair-programming style)
+We also did the Baum-Welch extra credit.
+
+
+Starting Transition Probabilities
+- - - - - - - - - - - - - - - - -
+Transitions	State1		State2
+Begin		0.9999		1.0E-4
+State1		0.9999		1.0E-4
+State2		0.01		0.99
+
+Iteration 1
+Log probability of the overall Viterbi path: -2308117.250520281
+
+Lengths and Locations of All Hits (start and end both inclusive)
+Start - End: [154651, 159579]	Length: 4929
+Start - End: [638464, 643447]	Length: 4984
+Number of hits: 2
+
+Transition Probabilities
+- - - - - - - - - - - - -
+Transitions		State1			State2
+State1		0.9999987915809444		1.2084190555600871E-6
+State2		2.0175527085645111E-4	0.9997982447291436
+
+		A			C			G			T
+State1 Probabilities: [0.34535287346946175, 0.154403327986079, 0.15797783155242576, 0.3422659669920335]
+State2 Probabilities: [0.1866236255422173, 0.31463734490063555, 0.3138303238172097, 0.18490870573993745]
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+Iteration 2
+Log probability of the overall Viterbi path: -2188058.0704205898
+
+Lengths and Locations of All Hits (start and end both inclusive)
+Number of hits: 23
+
+Transition Probabilities
+- - - - - - - - - - - - -
+Transitions		State1			State2
+State1		0.9999860680955147		1.393190448528579E-5
+State2		0.001635846372688478	0.9983641536273116
+
+		A			C			G			T
+State1 Probabilities: [0.34574019905662834, 0.15403537613416302, 0.1575904347178214, 0.34263399009138723]
+State2 Probabilities: [0.18762446657183499, 0.3108108108108108, 0.3135846372688478, 0.1879800853485064]
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+Iteration 3
+Log probability of the overall Viterbi path: -2187966.0928428094
+
+Lengths and Locations of All Hits (start and end both inclusive)
+Number of hits: 34
+
+Transition Probabilities
+- - - - - - - - - - - - -
+Transitions		State1			State2
+State1		0.9999793982095833		2.060179041677422E-5
+State2		0.0023297245443332877	0.9976702754556667
+
+		A			C			G			T
+State1 Probabilities: [0.34581317084580043, 0.15395899758959053, 0.15751644204655763, 0.3427113895180514]
+State2 Probabilities: [0.18493901603398658, 0.3138276003837193, 0.316362888858435, 0.1848704947238591]
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+Iteration 4
+Log probability of the overall Viterbi path: -2187960.6119817663
+
+Lengths and Locations of All Hits (start and end both inclusive)
+Number of hits: 35
+
+Transition Probabilities
+- - - - - - - - - - - - -
+Transitions		State1			State2
+State1		0.9999787912207774		2.1208779222667942E-5
+State2		0.002385008517887564	0.9976149914821124
+
+		A			C			G			T
+State1 Probabilities: [0.34581884066753116, 0.1539545283773466, 0.15750548398434186, 0.3427211469707804]
+State2 Probabilities: [0.18521294718909712, 0.313458262350937, 0.31672913117546847, 0.18459965928449745]
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+Iteration 5
+Log probability of the overall Viterbi path: -2187960.573838045
+
+Lengths and Locations of All Hits (start and end both inclusive)
+Number of hits: 35
+
+Transition Probabilities
+- - - - - - - - - - - - -
+Transitions		State1			State2
+State1		0.9999787912207774		2.1208779222667942E-5
+State2		0.002385008517887564	0.9976149914821124
+
+		A			C			G			T
+State1 Probabilities: [0.34581884066753116, 0.1539545283773466, 0.15750548398434186, 0.3427211469707804]
+State2 Probabilities: [0.18521294718909712, 0.313458262350937, 0.31672913117546847, 0.18459965928449745]
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+Iteration 6
+Log probability of the overall Viterbi path: -2187960.573838045
+
+Lengths and Locations of All Hits (start and end both inclusive)
+Number of hits: 35
+
+Transition Probabilities
+- - - - - - - - - - - - -
+Transitions		State1			State2
+State1		0.9999787912207774		2.1208779222667942E-5
+State2		0.002385008517887564	0.9976149914821124
+
+		A			C			G			T
+State1 Probabilities: [0.34581884066753116, 0.1539545283773466, 0.15750548398434186, 0.3427211469707804]
+State2 Probabilities: [0.18521294718909712, 0.313458262350937, 0.31672913117546847, 0.18459965928449745]
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+Iteration 7
+Log probability of the overall Viterbi path: -2187960.573838045
+
+Lengths and Locations of All Hits (start and end both inclusive)
+Number of hits: 35
+
+Transition Probabilities
+- - - - - - - - - - - - -
+Transitions		State1			State2
+State1		0.9999787912207774		2.1208779222667942E-5
+State2		0.002385008517887564	0.9976149914821124
+
+		A			C			G			T
+State1 Probabilities: [0.34581884066753116, 0.1539545283773466, 0.15750548398434186, 0.3427211469707804]
+State2 Probabilities: [0.18521294718909712, 0.313458262350937, 0.31672913117546847, 0.18459965928449745]
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+Iteration 8
+Log probability of the overall Viterbi path: -2187960.573838045
+
+Lengths and Locations of All Hits (start and end both inclusive)
+Number of hits: 35
+
+Transition Probabilities
+- - - - - - - - - - - - -
+Transitions		State1			State2
+State1		0.9999787912207774		2.1208779222667942E-5
+State2		0.002385008517887564	0.9976149914821124
+
+		A			C			G			T
+State1 Probabilities: [0.34581884066753116, 0.1539545283773466, 0.15750548398434186, 0.3427211469707804]
+State2 Probabilities: [0.18521294718909712, 0.313458262350937, 0.31672913117546847, 0.18459965928449745]
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+Iteration 9
+Log probability of the overall Viterbi path: -2187960.573838045
+
+Lengths and Locations of All Hits (start and end both inclusive)
+Number of hits: 35
+
+Transition Probabilities
+- - - - - - - - - - - - -
+Transitions		State1			State2
+State1		0.9999787912207774		2.1208779222667942E-5
+State2		0.002385008517887564	0.9976149914821124
+
+			A			C			G	T
+State1 Probabilities: [0.34581884066753116, 0.1539545283773466, 0.15750548398434186, 0.3427211469707804]
+State2 Probabilities: [0.18521294718909712, 0.313458262350937, 0.31672913117546847, 0.18459965928449745]
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+Iteration 10
+Log probability of the overall Viterbi path: -2187960.573838045
+
+Lengths and Locations of All Hits (start and end both inclusive)
+Start - End: [97326, 97541]	Length: 216
+Start - End: [97627, 97823]	Length: 197
+Start - End: [111764, 111856]	Length: 93
+Start - End: [118079, 118179]	Length: 101
+Start - End: [138345, 138419]	Length: 75
+Start - End: [154610, 157697]	Length: 3088
+Start - End: [157782, 159591]	Length: 1810
+Start - End: [186974, 187067]	Length: 94
+Start - End: [190831, 190907]	Length: 77
+Start - End: [215200, 215296]	Length: 97
+Start - End: [227705, 227782]	Length: 78
+Start - End: [303990, 304080]	Length: 91
+Start - End: [358766, 358942]	Length: 177
+Start - End: [359974, 360046]	Length: 73
+Start - End: [402969, 403057]	Length: 89
+Start - End: [412582, 412635]	Length: 54
+Start - End: [552537, 552862]	Length: 326
+Start - End: [619161, 619236]	Length: 76
+Start - End: [637579, 638153]	Length: 575
+Start - End: [638334, 640132]	Length: 1799
+Start - End: [640217, 643449]	Length: 3233
+Start - End: [643500, 643767]	Length: 268
+Start - End: [763767, 763845]	Length: 79
+Start - End: [764022, 764095]	Length: 74
+Start - End: [774708, 774788]	Length: 81
+Start - End: [863476, 864151]	Length: 676
+Start - End: [873579, 873778]	Length: 200
+Start - End: [883675, 883755]	Length: 81
+Start - End: [951852, 951968]	Length: 117
+Start - End: [1038544, 1038622]	Length: 79
+Start - End: [1129124, 1129194]	Length: 71
+Start - End: [1150142, 1150402]	Length: 261
+Start - End: [1189943, 1190054]	Length: 112
+Start - End: [1313165, 1313251]	Length: 87
+Start - End: [1659451, 1659520]	Length: 70
+Number of hits: 35
+
+Transition Probabilities
+- - - - - - - - - - - - -
+Transitions		State1				State2
+State1		0.9999787912207774		2.1208779222667942E-5
+State2		0.002385008517887564	0.9976149914821124
+
+			A			C			G		T
+State1 Probabilities: [0.34581884066753116, 0.1539545283773466, 0.15750548398434186, 0.3427211469707804]
+State2 Probabilities: [0.18521294718909712, 0.313458262350937, 0.31672913117546847, 0.18459965928449745]
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+Time: 4.484327936E9 nanoseconds
+
+
+
+
+First 10 Hits having at least 50 Nucleotides
+
+	All of the first ten hits significantly overlapped sequences from the RNA file. Most were within 2 or 3 indices of the start and stops, and a few were off by 100 or so.  We learned that the Viterbi algorithm is fairly effective in determining correct states of a Hidden Markov Model.
 
 Start: 97326	End: 97541	Length: 216
 	From RNT File: 97429..97537: tRNA-Met-1
-	Yeast Initiator
 
 Start: 97627	End: 97823	Length: 197
 	From RNT File: 97629..97713: tRNA-Leu-1
