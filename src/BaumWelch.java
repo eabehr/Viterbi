@@ -23,8 +23,9 @@ public class BaumWelch {
 
 	public static char[] genome;
 	public static double[] posteriorProb;
-	public static double[][] backwardFinal; 
+	public static double[][] backward; 
 	public static double[][] forward; 
+	public static double[][] forwardCompute; 
 
 	public static void main(String[] args) throws FileNotFoundException {
 		readGene();
@@ -87,22 +88,14 @@ public class BaumWelch {
 	private static double probabilityOfTransitionKL(int k, int l, int i) {
 		l = l - 1; // since no column for begin states
 		int xiplusOneIndex = actg.indexOf(genome[i + 1]);
-		double numerator = forward(k, i) * transitionProbs[k][l]
-				* emissionProbs[l][xiplusOneIndex] * backward(l, i + 1);
+		double numerator = forward[k][i] * transitionProbs[k][l]
+				* emissionProbs[l][xiplusOneIndex] * backward[l][i + 1];
 		double p = numerator / pXGivenTheta();
 		return p;
 	}
 
-	private static double backward(int l, int i) {
-		return backwardFinal[l][i];
-	}
-
 	private static double pXGivenTheta() {
 		return pathProb;
-	}
-
-	private static double forward(int k, int i) {
-		return forward[k][i];
 	}
 
 	public static void printStart() {
@@ -288,20 +281,52 @@ public class BaumWelch {
 		// LF  --> probability of role in fair state given previous state was loaded die 
 		// FF  --> probability of role in fair state given previous state was fair die
 		forward = new double[2][genome.length];
-		
+		forwardCompute = new double[4][genome.length]; 
 		// Begin State Transition Probabilities 
 		for(int r = 0; r < 2; r++) {
 			forward[r][0] = Math.log(transitionProbs[0][r]) + Math.log(emissionProbs[r][actg.indexOf(input[0])]); 
 		} 
 
 		for(int i = 1; i < input.length; i++) {
-			double LL = (forward[0][i-1]) + Math.log(transitionProbs[1][0]) + Math.log(emissionProbs[0][actg.indexOf(input[i])]); //LL transition --> Loaded die to loaded die
-			double FL = (forward[1][i]) + Math.log(transitionProbs[2][0]) + Math.log(emissionProbs[0][actg.indexOf(input[i])]); // FL transition
-			forward[0][i] = log_of_sum_of_logs(LL, FL); 
+			forwardCompute[0][i] = (forwardCompute[0][i-1]) + Math.log(transitionProbs[1][0]) + Math.log(emissionProbs[0][actg.indexOf(input[i])]); //LL transition --> Loaded die to loaded die
+			forwardCompute[1][i] = (forwardCompute[1][i]) + Math.log(transitionProbs[2][0]) + Math.log(emissionProbs[0][actg.indexOf(input[i])]); // FL transition
+			forward[0][i] = log_of_sum_of_logs(forwardCompute[0][i], forwardCompute[1][i]); 
 
-			double LF = (forward[0][i-1]) + Math.log(transitionProbs[1][1]) + Math.log(emissionProbs[1][actg.indexOf(input[i])]); //LF transition
-			double FF = (forward[1][i]) + Math.log(transitionProbs[2][1]) + Math.log(emissionProbs[1][actg.indexOf(input[i])]); // FF transition
-			forward[1][i] = log_of_sum_of_logs(LF, FF);
+			forwardCompute[2][i] = (forwardCompute[2][i-1]) + Math.log(transitionProbs[1][1]) + Math.log(emissionProbs[1][actg.indexOf(input[i])]); //LF transition
+			forwardCompute[3][i] = (forwardCompute[3][i]) + Math.log(transitionProbs[2][1]) + Math.log(emissionProbs[1][actg.indexOf(input[i])]); // FF transition
+			forward[1][i] = log_of_sum_of_logs(forwardCompute[2][i], forwardCompute[3][i]);
+		}
+	} 
+	
+	
+	public static void backwardAlgorithm(boolean dice){
+		char[] input = genome; 
+		if (dice){
+			input = DICE_SEQ.toCharArray();
+			transitionProbs = dieTransitionProbs;
+			emissionProbs = dieEmissionProbs; 
+			actg = die; 
+		}
+		
+		// LL  --> probability of role in loaded state given previous state was loaded die
+		// FL  --> probability of role in loaded state given previous state was fair die
+		// LF  --> probability of role in fair state given previous state was loaded die 
+		// FF  --> probability of role in fair state given previous state was fair die
+		backward = new double[2][genome.length];
+		
+		// Begin State Transition Probabilities 
+		for(int r = 0; r < 2; r++) {
+			backward[r][0] = Math.log(transitionProbs[0][r]) + Math.log(emissionProbs[r][actg.indexOf(input[0])]); 
+		} 
+
+		for(int i = 1; i < input.length; i++) {
+			double LL = (backward[0][i-1]) + Math.log(transitionProbs[1][0]) + Math.log(emissionProbs[0][actg.indexOf(input[i])]); //LL transition --> Loaded die to loaded die
+			double FL = (backward[1][i]) + Math.log(transitionProbs[2][0]) + Math.log(emissionProbs[0][actg.indexOf(input[i])]); // FL transition
+			backward[0][i] = log_of_sum_of_logs(LL, FL); 
+
+			double LF = (backward[0][i-1]) + Math.log(transitionProbs[1][1]) + Math.log(emissionProbs[1][actg.indexOf(input[i])]); //LF transition
+			double FF = (backward[1][i]) + Math.log(transitionProbs[2][1]) + Math.log(emissionProbs[1][actg.indexOf(input[i])]); // FF transition
+			backward[1][i] = log_of_sum_of_logs(LF, FF);
 		}
 	} 
 }
