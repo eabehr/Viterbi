@@ -1,0 +1,219 @@
+Starting Transition Probabilities
+- - - - - - - - - - - - - - - - -
+Transitions State1    State2
+Begin   0.9999    1.0E-4
+State1    0.9999    1.0E-4
+State2    0.01    0.99
+
+Iteration 1
+Log probability of the overall Viterbi path: -2308117.250520281
+
+Lengths and Locations of All Hits (start and end both inclusive)
+Start - End: [154651, 159579] Length: 4929
+Start - End: [638464, 643447] Length: 4984
+Number of hits: 2
+
+Transition Probabilities
+- - - - - - - - - - - - -
+Transitions   State1    State2
+State1    0.999907344872328 9.265512767198659E-5
+State2    0.010791184740967059  0.9892088152590329
+
+      A     C     G     T
+State1 Probabilities: [0.34535287346946175, 0.154403327986079, 0.15797783155242576, 0.3422659669920335]
+State2 Probabilities: [0.1866236255422173, 0.31463734490063555, 0.3138303238172097, 0.18490870573993745]
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+Iteration 2
+Log probability of the overall Viterbi path: -2188087.9926225943
+
+Lengths and Locations of All Hits (start and end both inclusive)
+Number of hits: 48
+
+Transition Probabilities
+- - - - - - - - - - - - -
+Transitions   State1    State2
+State1    0.999926181983934 7.38180160659805E-5
+State2    0.01355079329148763 0.9864492067085123
+
+      A     C     G     T
+State1 Probabilities: [0.3458860868832555, 0.15389599880222896, 0.15742566515389478, 0.34279224916062073]
+State2 Probabilities: [0.1832005792903693, 0.31452833914817985, 0.3201237574879863, 0.18214732407346454]
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+Iteration 3
+Log probability of the overall Viterbi path: -2188093.0594965797
+
+Lengths and Locations of All Hits (start and end both inclusive)
+Number of hits: 48
+
+Transition Probabilities
+- - - - - - - - - - - - -
+Transitions   State1    State2
+State1    0.9999415247283424  5.8475271657638874E-5
+State2    0.017104416641163064  0.9828955833588369
+
+      A     C     G     T
+State1 Probabilities: [0.3458860868832555, 0.15389599880222896, 0.15742566515389478, 0.34279224916062073]
+State2 Probabilities: [0.1832005792903693, 0.31452833914817985, 0.3201237574879863, 0.18214732407346454]
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+Iteration 4
+Log probability of the overall Viterbi path: -2188121.764721003
+
+Lengths and Locations of All Hits (start and end both inclusive)
+Number of hits: 46
+
+Transition Probabilities
+- - - - - - - - - - - - -
+Transitions   State1    State2
+State1    0.9999536768775809  4.632312241925618E-5
+State2    0.021569468142318523  0.9784305318576815
+
+      A     C     G     T
+State1 Probabilities: [0.34586525862058515, 0.15391897674226915, 0.15743666762427377, 0.34277909701287196]
+State2 Probabilities: [0.1831352650554146, 0.3142609160101482, 0.32120443316864733, 0.18139938576578982]
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+Iteration 5
+Log probability of the overall Viterbi path: -2188169.020605786
+
+Lengths and Locations of All Hits (start and end both inclusive)
+Number of hits: 44
+
+Transition Probabilities
+- - - - - - - - - - - - -
+Transitions   State1    State2
+State1    0.9999633260958242  3.667390417573671E-5
+State2    0.027185545876046997  0.9728144541239531
+
+      A     C     G     T
+State1 Probabilities: [0.3458445722582831, 0.15394241589971294, 0.15744574864117836, 0.3427672632008256]
+State2 Probabilities: [0.18331867685855374, 0.3137387539741595, 0.32232970303727254, 0.1806128661300142]
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+Iteration 6
+Log probability of the overall Viterbi path: -2188237.5362188523
+
+Lengths and Locations of All Hits (start and end both inclusive)
+Number of hits: 42
+
+Transition Probabilities
+- - - - - - - - - - - - -
+Transitions   State1    State2
+State1    0.9999709782025277  2.902179747242013E-5
+State2    0.03422899219057696 0.9657710078094229
+
+      A     C     G     T
+State1 Probabilities: [0.3458340630088161, 0.15395354840429817, 0.157460838392585, 0.3427515501943007]
+State2 Probabilities: [0.18305917684799672, 0.31390348781653127, 0.3220940550133097, 0.1809432803221623]
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+Iteration 7
+Log probability of the overall Viterbi path: -2188330.5920697656
+
+Lengths and Locations of All Hits (start and end both inclusive)
+Number of hits: 41
+
+Transition Probabilities
+- - - - - - - - - - - - -
+Transitions   State1    State2
+State1    0.999977030748214 2.296925178594272E-5
+State2    0.04301305539740279 0.9569869446025971
+
+      A     C     G     T
+State1 Probabilities: [0.3458196913994625, 0.15396280508049448, 0.1574876949958438, 0.3427298085241992]
+State2 Probabilities: [0.18162853765384881, 0.3158333912801613, 0.32209164870315, 0.18044642236283986]
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+Iteration 8
+Log probability of the overall Viterbi path: -2188450.7563257595
+
+Lengths and Locations of All Hits (start and end both inclusive)
+Number of hits: 40
+
+Transition Probabilities
+- - - - - - - - - - - - -
+Transitions   State1    State2
+State1    0.999981847901929 1.8152098070942092E-5
+State2    0.05400644632449365 0.9459935536755064
+
+      A     C     G     T
+State1 Probabilities: [0.345809667351607, 0.1539777022835653, 0.15750215659287403, 0.3427104737719536]
+State2 Probabilities: [0.18027930596699113, 0.31640569897023557, 0.32275356185639725, 0.18056143320637608]
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+Iteration 9
+Log probability of the overall Viterbi path: -2188605.11782385
+
+Lengths and Locations of All Hits (start and end both inclusive)
+Number of hits: 39
+
+Transition Probabilities
+- - - - - - - - - - - - -
+Transitions   State1    State2
+State1    0.9999856680708401  1.4331929159853039E-5
+State2    0.06767585168497459 0.9323241483150254
+
+      A     C     G     T
+State1 Probabilities: [0.34579670219841324, 0.1539858430279396, 0.1575196345306066, 0.3426978202430405]
+State2 Probabilities: [0.17990437450938415, 0.3173481766930707, 0.32262898736887174, 0.18011846142867338]
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+Iteration 10
+Log probability of the overall Viterbi path: -2188799.4429877102
+
+Lengths and Locations of All Hits (start and end both inclusive)
+Start - End: [97427, 97541] Length: 115
+Start - End: [97627, 97715] Length: 89
+Start - End: [111766, 111854] Length: 89
+Start - End: [118103, 118177] Length: 75
+Start - End: [138345, 138419] Length: 75
+Start - End: [154610, 157695] Length: 3086
+Start - End: [157848, 159579] Length: 1732
+Start - End: [186978, 187065] Length: 88
+Start - End: [190831, 190907] Length: 77
+Start - End: [215200, 215296] Length: 97
+Start - End: [227705, 227780] Length: 76
+Start - End: [291972, 291997] Length: 26
+Start - End: [303992, 304080] Length: 89
+Start - End: [358768, 358942] Length: 175
+Start - End: [359974, 360046] Length: 73
+Start - End: [402969, 403057] Length: 89
+Start - End: [412582, 412635] Length: 54
+Start - End: [552537, 552860] Length: 324
+Start - End: [619161, 619234] Length: 74
+Start - End: [637579, 637741] Length: 163
+Start - End: [637772, 637941] Length: 170
+Start - End: [637982, 638153] Length: 172
+Start - End: [638338, 640066] Length: 1729
+Start - End: [640219, 643447] Length: 3229
+Start - End: [643500, 643765] Length: 266
+Start - End: [763767, 763845] Length: 79
+Start - End: [764022, 764091] Length: 70
+Start - End: [863476, 863738] Length: 263
+Start - End: [863792, 864017] Length: 226
+Start - End: [864064, 864151] Length: 88
+Start - End: [873691, 873762] Length: 72
+Start - End: [951854, 951968] Length: 115
+Start - End: [1038544, 1038620] Length: 77
+Start - End: [1129126, 1129194] Length: 69
+Start - End: [1150142, 1150329] Length: 188
+Start - End: [1189943, 1190054] Length: 112
+Start - End: [1313165, 1313249] Length: 85
+Start - End: [1659453, 1659520] Length: 68
+Number of hits: 38
+
+Transition Probabilities
+- - - - - - - - - - - - -
+Transitions   State1    State2
+State1    0.9999886906830497  1.1309316950285077E-5
+State2    0.08454507057843808 0.9154549294215618
+
+      A     C     G     T
+State1 Probabilities: [0.3457771010932735, 0.15400487406642974, 0.1575399046020199, 0.34267812023827693]
+State2 Probabilities: [0.17905995343422584, 0.31824796274738065, 0.3234138533178114, 0.17927823050058206]
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+Time: 2.0021607663E10 nanoseconds
+
