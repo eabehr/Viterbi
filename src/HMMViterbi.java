@@ -1,3 +1,10 @@
+// Emily Behrendt and Katie McCorkell
+// eabehr, 1128821 // kmccork, 0822555
+// CSE 427 Homework 3
+// Thursday, February 20, 2013
+// Viterbi Algorithm
+
+
 import java.io.*;
 import java.util.*;
 
@@ -22,19 +29,12 @@ public class HMMViterbi {
 	public static double[] dieELoaded = new double[] {.10, .10, .10, .10, .10, .5};
 	public static final double fair = 1.0/6.0;
 	public static double[] dieEFair = new double[] {fair, fair, fair, fair, fair, fair};
-
 	
 	public static void main(String[] args) throws FileNotFoundException {
 		readGene();
 		cleanGene();
 
-		System.out.println("Starting Transition Probabilities");
-		System.out.println("- - - - - - - - - - - - - - - - -");
-		System.out.println("Transitions\tState1\t\tState2");
-		System.out.println("Begin\t\t" + genTransitions[0][0] + "\t\t" + genTransitions[0][1]);
-		System.out.println("State1\t\t" + genTransitions[1][0] + "\t\t" + genTransitions[1][1]);
-		System.out.println("State2\t\t" + genTransitions[2][0] + "\t\t" + genTransitions[2][1]);
-		System.out.println();
+		printStart();
 		
 		double begin = System.nanoTime();
 		double end = 0.0;
@@ -53,7 +53,7 @@ public class HMMViterbi {
 		}
 		System.out.println("Time: " + (end - begin) + " nanoseconds");
 	}
-
+	
 	// start - start of section, end - end of section (inclusive), state2 - if true, state1, if false, state1
 	public static void generateNewProbabilities(int start, int end, boolean state2) {
 		for(int i = start; i <= end; i++) {
@@ -64,7 +64,6 @@ public class HMMViterbi {
 			}
 		}
 	}
-
 	
 	// This method processes a given Viterbi path.
 	// It identifies the hits (contiguous sequences of State 2) and if the boolean parameter is true, prints them
@@ -88,7 +87,7 @@ public class HMMViterbi {
 			start = i;
 			while(i < viPath.length && viPath[i] == '0') {
 				if(inSeq) {
-					//increment state2->state1
+					// increment state2->state1
 					genTransitions[2][0]++;
 				} else {
 					// increment state1->state1
@@ -155,38 +154,43 @@ public class HMMViterbi {
 		System.out.println("State2 Probabilities: " + Arrays.toString(genEState2));
 	}
 
-	//trans = transition = "a" 
-	//e = emitL = emissions
+	// trans = transition = "a" 
+	// e = emitL = emissions
 	// Calculates the overall Viterbi path for the sequence
 	// Stores this path in global variable viPath
 	public static void hmmViterbi(char[] input, double[][] trans, double[] emitL, double[] emitF){
 		// this output grid looks like 
-		// output[0][i] LL  --> probability of role in loaded state given previous state was loaded die
-		// output[1][i] FL  --> probability of role in loaded state given previous state was fair die
-		// output[2][i] Max of Loaded state possibilities 
-		// output[3][i] LF  --> probability of role in fair state given previous state was loaded die 
-		// output[4][i] FF  --> probability of role in fair state given previous state was fair die
-		// output[5][i] Max of Fair state possibilities  
+		// output[0][i] 11  --> probability of emission from state1 given previously state1
+		// output[1][i] 21  --> probability of emission from state1 given previously state2
+		// output[2][i] Max of State1 state possibilities 
+		// output[3][i] 12  --> probability of emission from state2 given previously state1
+		// output[4][i] 22  --> probability of emission from state2 given previously state2
+		// output[5][i] Max of State2 state possibilities  
 		double[][] output = new double[6][input.length];
 		for(int r = 0; r < 3; r++) {
-			output[r][0] = Math.log(trans[0][0]) + Math.log(emitL[actg.indexOf(input[0])]); //B --> L transition
+			// begin -> state1 transition
+			output[r][0] = Math.log(trans[0][0]) + Math.log(emitL[actg.indexOf(input[0])]);
 		} 
 		for(int r = 3; r < 6; r++) {
-			output[r][0] = Math.log(trans[0][1]) + Math.log(emitF[actg.indexOf(input[0])]); //B --> F transition
+			// begin -> state2 transition
+			output[r][0] = Math.log(trans[0][1]) + Math.log(emitF[actg.indexOf(input[0])]);
 		} 
 
 		int[][] path = new int[2][input.length];
 		for(int i = 1; i < input.length; i++) {
-			output[0][i] = (output[2][i-1]) + Math.log(trans[1][0]) + Math.log(emitL[actg.indexOf(input[i])]); //LL transition --> Loaded die to loaded die
-			output[1][i] = (output[5][i-1]) + Math.log(trans[2][0]) + Math.log(emitL[actg.indexOf(input[i])]); // FL transition
+			// s1->s1 transition
+			output[0][i] = (output[2][i-1]) + Math.log(trans[1][0]) + Math.log(emitL[actg.indexOf(input[i])]);
+			// s2->s1 transition
+			output[1][i] = (output[5][i-1]) + Math.log(trans[2][0]) + Math.log(emitL[actg.indexOf(input[i])]);
 			output[2][i] = output[0][i];
 			if(output[1][i] > output[0][i]) {
 				path[0][i] = 1;
 				output[2][i] = output[1][i];
 			}
-
-			output[3][i] = (output[2][i-1]) + Math.log(trans[1][1]) + Math.log(emitF[actg.indexOf(input[i])]); //LF transition
-			output[4][i] = (output[5][i-1]) + Math.log(trans[2][1]) + Math.log(emitF[actg.indexOf(input[i])]); // FF transition
+			// s1->s2 transition
+			output[3][i] = (output[2][i-1]) + Math.log(trans[1][1]) + Math.log(emitF[actg.indexOf(input[i])]);
+			// s2->s2 transition
+			output[4][i] = (output[5][i-1]) + Math.log(trans[2][1]) + Math.log(emitF[actg.indexOf(input[i])]);
 			output[5][i] = output[3][i];
 			if(output[4][i] > output[3][i]) {
 				path[1][i] = 1;
@@ -242,33 +246,18 @@ public class HMMViterbi {
 			line = s.nextLine();	
 			line = line.toUpperCase(); 
 			line = line.trim();
-			sequence += line;; 
+			sequence += line;
 		}
 		genome = sequence.toCharArray();
 	}
 	
-	/* 
-     * Given two probabilities x and y, represented by their logs lx, ly,
-     * return the log of their sum log(x+y) = log(exp(lx) + exp(ly)).
-     *
-     * Assume log(0) is represented by NaN.
-     *
-     * The "lx > ly" trick is some protection from underflow:
-     *   log(a+b) = log(a(1+b/a)) = log(a)+log(1+b/a), 
-     * which will be most accurate when b/a < 1.
-     */
-    public static double log_of_sum_of_logs(double lx, double ly){
-      if(isnan(lx)) return ly;
-      if(isnan(ly)) return lx;
-      if(lx > ly) {
-        return lx + Math.log(1+Math.exp(ly-lx));
-      } else {
-        return ly + Math.log(1+Math.exp(lx-ly));
-      }
-    }
-    
-    public static boolean isnan(Double x){
-    	return x.isNaN(); 
-    }
-    
+	public static void printStart() {
+		System.out.println("Starting Transition Probabilities");
+		System.out.println("- - - - - - - - - - - - - - - - -");
+		System.out.println("Transitions\tState1\t\tState2");
+		System.out.println("Begin\t\t" + genTransitions[0][0] + "\t\t" + genTransitions[0][1]);
+		System.out.println("State1\t\t" + genTransitions[1][0] + "\t\t" + genTransitions[1][1]);
+		System.out.println("State2\t\t" + genTransitions[2][0] + "\t\t" + genTransitions[2][1]);
+		System.out.println();
+	}
 }
